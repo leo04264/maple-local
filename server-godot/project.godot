@@ -1,0 +1,19 @@
+; Godot 4 server project for the Maple Royal MVP.
+; Run headlessly:
+;   godot --headless --path server-godot
+
+config_version=5
+
+[application]
+
+config/name="Maple Royal Server"
+config/features=PackedStringArray("4.3")
+run/main_scene="res://main.tscn"
+
+[physics]
+
+common/physics_ticks_per_second=30
+
+[debug]
+
+settings/stdout/print_fps=false
