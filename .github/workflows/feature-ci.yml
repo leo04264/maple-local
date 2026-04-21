@@ -1,0 +1,57 @@
+name: feature-ci
+
+on:
+  push:
+    branches:
+      - "feature/**"
+      - "fix/**"
+      - "content/**"
+  pull_request:
+
+concurrency:
+  group: feature-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate shared data
+        run: python3 tools/validate/validate_data.py
+
+      - name: Validate dialogue data
+        run: python3 tools/validate/validate_dialogue.py
+
+      - name: Validate loot data
+        run: python3 tools/validate/validate_loot.py
+
+  export:
+    runs-on: [self-hosted, linux, godot-build]
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Smoke test server
+        run: bash tools/validate/smoke_server.sh
+
+      - name: Smoke test client
+        run: bash tools/validate/smoke_client.sh
+
+      - name: Export client
+        run: bash tools/build/export_client.sh
+
+      - name: Export server
+        run: bash tools/build/export_server.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/

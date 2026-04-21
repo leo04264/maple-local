@@ -1,0 +1,35 @@
+name: deploy-staging
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        description: GitHub artifact name to deploy
+        required: true
+        default: build-artifacts
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment: staging
+    runs-on: [self-hosted, linux, godot-deploy-staging]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ github.event.inputs.artifact-name || 'build-artifacts' }}
+          path: artifact
+
+      - name: Deploy to staging
+        env:
+          ARTIFACT_DIR: artifact
+          STAGING_RELEASE_DIR: ${{ vars.STAGING_RELEASE_DIR }}
+        run: bash tools/build/deploy_staging.sh

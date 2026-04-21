@@ -1,0 +1,32 @@
+name: deploy-prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        description: GitHub artifact name to deploy
+        required: true
+        default: build-artifacts
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment: production
+    runs-on: [self-hosted, linux, godot-deploy-prod]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ github.event.inputs.artifact-name || 'build-artifacts' }}
+          path: artifact
+
+      - name: Deploy to production
+        env:
+          ARTIFACT_DIR: artifact
+          PROD_RELEASE_DIR: ${{ vars.PROD_RELEASE_DIR }}
+        run: bash tools/build/deploy_prod.sh
