@@ -1,0 +1,50 @@
+name: smoke-server
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "server-godot/**"
+      - "shared-data/**"
+      - ".github/workflows/smoke-server.yml"
+
+jobs:
+  boot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot 4.3 headless
+        run: |
+          set -euo pipefail
+          GODOT_VER="4.3-stable"
+          URL="https://github.com/godotengine/godot/releases/download/${GODOT_VER}/Godot_v${GODOT_VER}_linux.x86_64.zip"
+          curl -L -o /tmp/godot.zip "$URL"
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          mv /tmp/godot/Godot_v${GODOT_VER}_linux.x86_64 /usr/local/bin/godot
+          chmod +x /usr/local/bin/godot
+          godot --version
+
+      - name: Import server project (populate .godot cache)
+        run: |
+          godot --headless --path server-godot --import || true
+
+      - name: Boot server, tick for 4 seconds, capture output
+        run: |
+          set -o pipefail
+          timeout --preserve-status 6 godot --headless --path server-godot --autospawn SmokeBot 2>&1 | tee /tmp/server.log || true
+          echo "---- captured log ----"
+          cat /tmp/server.log
+
+      - name: Assert boot banner
+        run: |
+          grep -E "\[server\] ready\. players=" /tmp/server.log
+          echo "OK: server banner found"
+
+      - name: Upload log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-smoke-log
+          path: /tmp/server.log
