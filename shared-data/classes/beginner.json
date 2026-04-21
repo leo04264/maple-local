@@ -1,0 +1,32 @@
+{
+  "id": "beginner",
+  "display_name": "Beginner",
+  "description": "Every adventurer starts here. Simple melee basic attack, no active skills.",
+  "base_stats": {
+    "hp": 50,
+    "mp": 5,
+    "atk": 4,
+    "def": 1,
+    "move_speed": 180,
+    "jump_speed": 360
+  },
+  "per_level_gain": {
+    "hp": 12,
+    "mp": 2,
+    "atk": 1,
+    "def": 0
+  },
+  "basic_attack": {
+    "id": "basic_slash",
+    "type": "melee",
+    "range": 56,
+    "cooldown_ms": 350,
+    "damage_multiplier": 1.0,
+    "hitbox": { "w": 64, "h": 48 }
+  },
+  "starting_inventory": [
+    { "item_id": "red-potion", "qty": 5 }
+  ],
+  "exp_table_ref": "default_curve",
+  "starting_map": "henesys-training-ground"
+}

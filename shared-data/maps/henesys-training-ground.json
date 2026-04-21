@@ -1,0 +1,22 @@
+{
+  "id": "henesys-training-ground",
+  "display_name": "Henesys Training Ground",
+  "size": { "w": 1920, "h": 720 },
+  "spawn_point": { "x": 160, "y": 560 },
+  "respawn_point": { "x": 160, "y": 560 },
+  "platforms": [
+    { "x": 0,    "y": 640, "w": 1920, "h": 80 },
+    { "x": 360,  "y": 500, "w": 240,  "h": 16 },
+    { "x": 780,  "y": 420, "w": 240,  "h": 16 },
+    { "x": 1200, "y": 500, "w": 240,  "h": 16 },
+    { "x": 1560, "y": 420, "w": 240,  "h": 16 }
+  ],
+  "monster_spawns": [
+    { "monster_id": "green-slime", "x": 520,  "y": 608, "count": 2 },
+    { "monster_id": "green-slime", "x": 1020, "y": 608, "count": 2 },
+    { "monster_id": "green-slime", "x": 1500, "y": 608, "count": 2 }
+  ],
+  "portals": [],
+  "background": "henesys_grass_placeholder",
+  "music": null
+}

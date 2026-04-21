@@ -1,0 +1,21 @@
+{
+  "id": "green-slime",
+  "display_name": "Green Slime",
+  "level": 2,
+  "stats": {
+    "hp": 20,
+    "atk": 3,
+    "def": 0,
+    "move_speed": 40
+  },
+  "exp_reward": 6,
+  "ai": {
+    "behavior": "wander",
+    "aggro_on_hit": true,
+    "aggro_range": 200,
+    "patrol_range": 180
+  },
+  "hitbox": { "w": 36, "h": 24 },
+  "loot_table_ref": "green-slime-loot",
+  "respawn_seconds": 8
+}

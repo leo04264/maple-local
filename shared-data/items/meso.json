@@ -1,0 +1,8 @@
+{
+  "id": "meso",
+  "display_name": "Meso",
+  "type": "currency",
+  "stack_size": 2147483647,
+  "icon": "meso_placeholder",
+  "description": "Standard currency."
+}

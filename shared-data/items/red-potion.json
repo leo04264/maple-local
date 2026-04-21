@@ -1,0 +1,13 @@
+{
+  "id": "red-potion",
+  "display_name": "Red Potion",
+  "type": "consumable",
+  "stack_size": 99,
+  "use_effect": {
+    "kind": "restore_hp",
+    "amount": 50
+  },
+  "price": 50,
+  "icon": "red_potion_placeholder",
+  "description": "Restores 50 HP when used."
+}
